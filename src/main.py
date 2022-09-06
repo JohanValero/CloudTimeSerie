@@ -19,13 +19,19 @@ vConnection = create_engine(vConnection)
 @app.route('/')
 def main_app():
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
-    # Identifica las anomalias.
-    model =  IsolationForest(contamination=0.004)
-    model.fit(vDataFrame[['value']])
-    vDataFrame['outliers'] = pd.Series(model.predict(vDataFrame[['value']])).apply(lambda x: 'yes' if (x == -1) else 'no')
-    vDataFrame = vDataFrame.query('outliers=="yes"')
     
-    vJSON = vDataFrame.to_json(orient = 'records', lines = False)
+    model =  IsolationForest(contamination = 0.004)
+    model.fit(vDataFrame[['value']])
+    vDataFrame['outliers'] = pd.Series(
+            model.predict(vDataFrame[['value']])
+        ).apply(lambda x: 'yes' if (x == -1) else 'no')
+    vDataAnomalias = vDataFrame.query('outliers=="yes"')
+    
+    vJSON = '{"serie_total": ' + \
+                str(vDataFrame.to_json(orient = 'records', lines = False)) + \
+            ', "serie_anomalias": ' + \
+                str(vDataAnomalias.to_json(orient = 'records', lines = False)) + \
+            '}'
     return vJSON
 
 @app.route('/hello_world')
@@ -35,8 +41,6 @@ def hello():
 
 gPORT = os.getenv('PORT', default=None)
 gAUTHOR_NAME = os.getenv("AUTHOR", default=None)
-
-print("PORT: ", gPORT)
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = gPORT)
