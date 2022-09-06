@@ -36,5 +36,5 @@ steps:
         path: /root/env_folder
 availableSecrets:
   secretManager:
-  - versionName: projects/533919499987/secrets/QA-Enviroment/versions/1
+  - versionName: projects/533919499987/secrets/QA-Enviroment/versions/latest
     env: 'ENV_FILE'

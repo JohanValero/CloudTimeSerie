@@ -19,7 +19,8 @@ vConnection = create_engine(vConnection)
 @app.route('/')
 def main_app():
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
-    vJSON = vDataFrame.to_json(orient = 'records', lines = True)
+    # Identifica las anomalias.
+    vJSON = vDataFrame.to_json(orient = 'records', lines = False)
     return vJSON
 
 @app.route('/hello_world')
