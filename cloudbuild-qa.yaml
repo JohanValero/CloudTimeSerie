@@ -16,5 +16,6 @@ steps:
       'run',
       'deploy', 'analityc-app-qa',
       '--image', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc/app_time_serie_qa',
-      '--region', 'southamerica-east1'
+      '--region', 'southamerica-east1',
+      '--allow-unauthenticated'
     ]
