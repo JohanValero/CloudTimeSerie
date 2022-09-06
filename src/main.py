@@ -1,6 +1,6 @@
-from venv import create
 from flask import Flask
 from sqlalchemy import create_engine
+from sklearn.ensemble import IsolationForest
 
 import pandas as pd
 import os
@@ -20,6 +20,11 @@ vConnection = create_engine(vConnection)
 def main_app():
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
     # Identifica las anomalias.
+    model =  IsolationForest(contamination=0.004)
+    model.fit(vDataFrame[['value']])
+    vDataFrame['outliers'] = pd.Series(model.predict(vDataFrame[['value']])).apply(lambda x: 'yes' if (x == -1) else 'no')
+    vDataFrame = vDataFrame.query('outliers=="yes"')
+    
     vJSON = vDataFrame.to_json(orient = 'records', lines = False)
     return vJSON
 
