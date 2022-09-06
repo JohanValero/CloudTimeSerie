@@ -4,11 +4,11 @@ import os
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def main_app():
     return ""
 
 @app.route('/hello_world')
-def index():
+def hello():
     vStringData = "Hola mundo de " + str(gAUTHOR_NAME) + " in port [" + str(gPORT) + "]."
     return vStringData
 
