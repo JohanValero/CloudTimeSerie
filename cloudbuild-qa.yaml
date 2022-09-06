@@ -2,19 +2,19 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc',
+      '-t', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc/app_time_serie_qa',
       '.'
     ]
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc'
+      'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc/app_time_serie_qa'
     ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: [
       'run',
       'deploy', 'analityc-app-qa',
-      '--image', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc',
+      '--image', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc/app_time_serie_qa',
       '--region', 'southamerica-east1'
     ]
