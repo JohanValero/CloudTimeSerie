@@ -1,4 +1,15 @@
 steps:
+  - name: 'gcr.io/cloud-builders/git'
+    secretEnv: ['ENV_FILE']
+    entrypoint: 'bash'
+    args:
+    - -c
+    - |
+      echo "$$ENV_FILE" >> /root/env_folder/.env
+      chmod 400 /root/env_folder/.env
+    volumes:
+    - name: 'envs'
+      path: /root/env_folder
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
@@ -17,5 +28,13 @@ steps:
       'deploy', 'analityc-app-qa',
       '--image', 'southamerica-east1-docker.pkg.dev/indigo-charge-361619/pythonanalityc/app_time_serie_qa',
       '--region', 'southamerica-east1',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--env-vars-file', '/root/env_folder/.env'
     ]
+    volumes:
+      - name: 'envs'
+        path: /root/env_folder
+availableSecrets:
+  secretManager:
+  - versionName: projects/533919499987/secrets/QA-Enviroment/versions/1
+    env: 'ENV_FILE'
