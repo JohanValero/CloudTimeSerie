@@ -1,9 +1,11 @@
 from flask import Flask
 from sqlalchemy import create_engine
+from google.cloud import storage
 from sklearn.ensemble import IsolationForest
 
 import pandas as pd
 import os
+import pickle
 
 app = Flask(__name__)
 
@@ -20,10 +22,10 @@ vConnection = create_engine(vConnection)
 def main_app():
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
     
-    model =  IsolationForest(contamination = 0.004)
-    model.fit(vDataFrame[['value']])
+    vModel =  IsolationForest(contamination = 0.004)
+    vModel.fit(vDataFrame[['value']])
     vDataFrame['outliers'] = pd.Series(
-            model.predict(vDataFrame[['value']])
+            vModel.predict(vDataFrame[['value']])
         ).apply(lambda x: 'yes' if (x == -1) else 'no')
     vDataAnomalias = vDataFrame.query('outliers=="yes"')
     
@@ -38,6 +40,23 @@ def main_app():
 def hello():
     vStringData = "Hola mundo de " + str(gAUTHOR_NAME) + " in port [" + str(gPORT) + "]."
     return vStringData
+
+@app.route('/train_model')
+def train_model():
+    cMODEL_FILE_NAME = 'my_model.pck'
+    vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
+    vModel = IsolationForest(contamination = 0.004)
+    vModel.fit(vDataFrame[['value']])
+    
+    with open(cMODEL_FILE_NAME, 'wb') as vFile:
+        pickle.dump(vModel, vFile)
+    
+    vStorageClient = storage.client()
+    vBucket = vStorageClient.bucket(os.getenv('BUCKET_NAME'))
+    vBlob = vBucket.blob(os.getenv('BLOB_MODEL_FILE'))
+    vBlob.upload_from_filename(cMODEL_FILE_NAME)
+
+    return '{"STATUS": 200, "MESSAGE": "OK"}'
 
 gPORT = os.getenv('PORT', default=None)
 gAUTHOR_NAME = os.getenv("AUTHOR", default=None)
