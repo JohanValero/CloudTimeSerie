@@ -51,7 +51,7 @@ def train_model():
     with open(cMODEL_FILE_NAME, 'wb') as vFile:
         pickle.dump(vModel, vFile)
     
-    vStorageClient = storage.client()
+    vStorageClient = storage.Client()
     vBucket = vStorageClient.bucket(os.getenv('BUCKET_NAME'))
     vBlob = vBucket.blob(os.getenv('BLOB_MODEL_FILE'))
     vBlob.upload_from_filename(cMODEL_FILE_NAME)
