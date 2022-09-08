@@ -28,10 +28,12 @@ def main_app():
     vBlob = vBucket.blob(os.getenv('BLOB_MODEL_FILE'))
     vBlob.download_to_filename(cMODEL_FILE_NAME)
 
-    vModel = pickle.load(cMODEL_FILE_NAME)
+    vModel = None
+    with open(cMODEL_FILE_NAME, 'rb') as vFile:
+        vModel = pickle.load(vFile)
+    
     #vModel = IsolationForest(contamination = 0.004)
     #vModel.fit(vDataFrame[['value']])
-    
     vDataFrame['outliers'] = pd.Series(
             vModel.predict(vDataFrame[['value']])
         ).apply(lambda x: 'yes' if (x == -1) else 'no')
