@@ -7,6 +7,7 @@ import pandas as pd
 import os
 import pickle
 
+cMODEL_FILE_NAME = 'my_model.pck'
 app = Flask(__name__)
 
 vConnection = ("mysql+mysqlconnector://{username}:{password}@{host}:{port}/{schema}").format(
@@ -22,8 +23,15 @@ vConnection = create_engine(vConnection)
 def main_app():
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
     
-    vModel =  IsolationForest(contamination = 0.004)
-    vModel.fit(vDataFrame[['value']])
+    vStorageClient = storage.Client()
+    vBucket = vStorageClient.bucket(os.getenv('BUCKET_NAME'))
+    vBlob = vBucket.blob(os.getenv('BLOB_MODEL_FILE'))
+    vBlob.download_to_filename(cMODEL_FILE_NAME)
+
+    vModel = pickle.load(cMODEL_FILE_NAME)
+    #vModel = IsolationForest(contamination = 0.004)
+    #vModel.fit(vDataFrame[['value']])
+    
     vDataFrame['outliers'] = pd.Series(
             vModel.predict(vDataFrame[['value']])
         ).apply(lambda x: 'yes' if (x == -1) else 'no')
@@ -43,7 +51,6 @@ def hello():
 
 @app.route('/train_model')
 def train_model():
-    cMODEL_FILE_NAME = 'my_model.pck'
     vDataFrame = pd.read_sql('SELECT * FROM taxi_rides_0002', con = vConnection)
     vModel = IsolationForest(contamination = 0.004)
     vModel.fit(vDataFrame[['value']])
