@@ -6,6 +6,15 @@
 - Se utilizó la herramienta de "Cloud Build" para generar un despliegue continuo de creación, automatización de los pull request antes de publicarse definitivamente.
 - Se utilizó la herramienta de "Cloud Storage" para guardar el modelo predictivo entrenado para siempre retornar los mismos resultados para un modelo predictivo.
 
+![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Deploy%20diagram.png)
+> CI/CD deploy diagram.
+
+
+
+![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Microservice%20diagram.png)
+> Funcionamiento del mircroservicio.
+
+
 Dataset original utilizado como fuente del modelo predictivo:
 * https://drive.google.com/file/d/1tI7DOx57sF1MwhNGTyx9IImKX-pxqm9S/view
 
@@ -17,9 +26,3 @@ Visualización del dataset:
 
 Visualización del modelo predictivo:
 * https://timeserie.grafana.net/dashboard/snapshot/jw3Rvc4VnAHo8kt1y8QrxW4AFvakLd1J
-
-![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Deploy%20diagram.png)
-> CI/CD deploy diagram.
-
-![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Microservice%20diagram.png)
-> Funcionamiento del mircroservicio.
