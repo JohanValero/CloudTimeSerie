@@ -19,16 +19,16 @@ Visualización del modelo predictivo:
 * https://timeserie.grafana.net/dashboard/snapshot/jw3Rvc4VnAHo8kt1y8QrxW4AFvakLd1J
 
 ###CI/CD diagrama de despliegue.                    
-```seq
-GitHub->Cloud Build: Pull request.
-Cloud Build->Secret Management: request database connections.
-Secret Management->Cloud Build: Enviroments variables returned.
-Cloud Build->Artifact registry: Save the container.
-Cloud Build->Cloud run: Deploy the micro-service.
+sequenceDiagram
+GitHub->>Cloud Build: Pull request.
+Cloud Build->>Secret Management: request database connections.
+Secret Management->>Cloud Build: Enviroments variables returned.
+Cloud Build->>Artifact registry: Save the container.
+Cloud Build->>Cloud run: Deploy the micro-service.
+Cloud run->>Cloud Build: Deploy OK.
+Cloud Build->>GitHub: Pull request OK.
 Artifact registry-->Cloud run: get the image container
-Cloud run->Cloud Build: Deploy OK.
-Cloud Build->GitHub: Pull request OK.
-```
+
 
 ###Funcionamiento del mircroservicio.
 ```seq
