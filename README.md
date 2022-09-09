@@ -18,18 +18,7 @@ Visualización del dataset:
 Visualización del modelo predictivo:
 * https://timeserie.grafana.net/dashboard/snapshot/jw3Rvc4VnAHo8kt1y8QrxW4AFvakLd1J
 
-###CI/CD diagrama de despliegue.                    
-sequenceDiagram
-Alice->>John: Hello John, how are you?
-loop Healthcheck
-    John->>John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John-->>Alice: Great!
-John->>Bob: How about you?
-Bob-->>John: Jolly good!
-
-
+###CI/CD diagrama de despliegue.
 ```seq
 GitHub->Cloud Build: Pull request.
 Cloud Build->Secret Management: request database connections.
@@ -42,11 +31,3 @@ Cloud Build->GitHub: Pull request OK.
 ```
 
 ###Funcionamiento del mircroservicio.
-```seq
-Grafana->GCP: Retorname las anomalias\nde la serie de tiempo.
-GCP->Cloud Run: Ejecutar microservicio.
-Cloud Run->Data Base: Obtener serie de tiempo.
-Cloud Run->Cloud Storage: Obtener modelo predictivo.
-Note right of Cloud Run: Ejecuta el\nmodelo predictivo. 
-Cloud Run->Grafana: Retorna las anomalias en la serie de tiempo.
-```
