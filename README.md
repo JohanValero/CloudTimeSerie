@@ -6,28 +6,24 @@
 - Se utilizó la herramienta de "Cloud Build" para generar un despliegue continuo de creación, automatización de los pull request antes de publicarse definitivamente.
 - Se utilizó la herramienta de "Cloud Storage" para guardar el modelo predictivo entrenado para siempre retornar los mismos resultados para un modelo predictivo.
 
-Dataset original utilizado como fuente del modelo predictivo:
-* https://drive.google.com/file/d/1tI7DOx57sF1MwhNGTyx9IImKX-pxqm9S/view
+# Despliegue en GCP.
+![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Deploy%20diagram.png)
+> CI/CD deploy diagram.
 
-Guia original utilizada para la predicción en series de tiempo:
-* https://www.section.io/engineering-education/anomaly-detection-model-on-time-series-data-using-isolation-forest/
+# Consumo por el Dashboard.
+![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Microservice%20diagram.png)
+> Funcionamiento del mircroservicio.
 
+# Visualización.
 Visualización del dataset:
 * https://timeserie.grafana.net/dashboard/snapshot/JBuwq2aMyGJ574G7E7f4lmS1RvkNTXjk
 
 Visualización del modelo predictivo:
 * https://timeserie.grafana.net/dashboard/snapshot/jw3Rvc4VnAHo8kt1y8QrxW4AFvakLd1J
 
-###CI/CD diagrama de despliegue.
-```seq
-GitHub->Cloud Build: Pull request.
-Cloud Build->Secret Management: request database connections.
-Secret Management->Cloud Build: Enviroments variables returned.
-Cloud Build->Artifact registry: Save the container.
-Cloud Build->Cloud run: Deploy the micro-service.
-Artifact registry-->Cloud run: get the image container
-Cloud run->Cloud Build: Deploy OK.
-Cloud Build->GitHub: Pull request OK.
-```
+# Fuentes.
+Dataset original utilizado como fuente del modelo predictivo:
+* https://drive.google.com/file/d/1tI7DOx57sF1MwhNGTyx9IImKX-pxqm9S/view
 
-###Funcionamiento del mircroservicio.
+Guia original utilizada para la predicción en series de tiempo:
+* https://www.section.io/engineering-education/anomaly-detection-model-on-time-series-data-using-isolation-forest/
