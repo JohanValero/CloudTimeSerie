@@ -6,11 +6,11 @@
 - Se utilizó la herramienta de "Cloud Build" para generar un despliegue continuo de creación, automatización de los pull request antes de publicarse definitivamente.
 - Se utilizó la herramienta de "Cloud Storage" para guardar el modelo predictivo entrenado para siempre retornar los mismos resultados para un modelo predictivo.
 
+# Despliegue en GCP.
 ![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Deploy%20diagram.png)
 > CI/CD deploy diagram.
 
-
-
+# Consumo por el Dashboard.
 ![](https://raw.githubusercontent.com/JohanValero/CloudTimeSerie/main/Notebook/Microservice%20diagram.png)
 > Funcionamiento del mircroservicio.
 
