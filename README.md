@@ -20,15 +20,26 @@ Visualización del modelo predictivo:
 
 ###CI/CD diagrama de despliegue.                    
 sequenceDiagram
-GitHub->>Cloud Build: Pull request.
-Cloud Build->>Secret Management: request database connections.
-Secret Management->>Cloud Build: Enviroments variables returned.
-Cloud Build->>Artifact registry: Save the container.
-Cloud Build->>Cloud run: Deploy the micro-service.
-Cloud run->>Cloud Build: Deploy OK.
-Cloud Build->>GitHub: Pull request OK.
-Artifact registry-->Cloud run: get the image container
+Alice->>John: Hello John, how are you?
+loop Healthcheck
+    John->>John: Fight against hypochondria
+end
+Note right of John: Rational thoughts!
+John-->>Alice: Great!
+John->>Bob: How about you?
+Bob-->>John: Jolly good!
 
+
+```seq
+GitHub->Cloud Build: Pull request.
+Cloud Build->Secret Management: request database connections.
+Secret Management->Cloud Build: Enviroments variables returned.
+Cloud Build->Artifact registry: Save the container.
+Cloud Build->Cloud run: Deploy the micro-service.
+Artifact registry-->Cloud run: get the image container
+Cloud run->Cloud Build: Deploy OK.
+Cloud Build->GitHub: Pull request OK.
+```
 
 ###Funcionamiento del mircroservicio.
 ```seq
